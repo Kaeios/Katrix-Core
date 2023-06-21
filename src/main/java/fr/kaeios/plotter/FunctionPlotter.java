@@ -1,8 +1,12 @@
-package fr.kaeios.plotting;
+package fr.kaeios.plotter;
 
 import fr.kaeios.api.computation.Function;
 import fr.kaeios.api.plotting.PositionedElement;
 import fr.kaeios.api.plotting.RenderedComponent;
+import fr.kaeios.plotter.components.AxisPlot;
+import fr.kaeios.plotter.components.ContourPlot;
+import fr.kaeios.plotter.components.FunctionPlot;
+import fr.kaeios.plotter.components.GridPlot;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

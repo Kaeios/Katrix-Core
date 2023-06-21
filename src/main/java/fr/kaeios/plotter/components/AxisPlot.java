@@ -1,4 +1,4 @@
-package fr.kaeios.plotting;
+package fr.kaeios.plotter.components;
 
 import fr.kaeios.api.plotting.PositionedElement;
 

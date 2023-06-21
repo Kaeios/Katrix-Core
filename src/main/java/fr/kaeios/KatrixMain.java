@@ -5,7 +5,7 @@ import fr.kaeios.api.matrix.Matrix;
 import fr.kaeios.api.matrix.TransformedMatrix;
 import fr.kaeios.matrix.MatrixImpl;
 import fr.kaeios.matrix.operator.MatrixOperators;
-import fr.kaeios.plotting.FunctionPlotter;
+import fr.kaeios.plotter.FunctionPlotter;
 import fr.kaeios.solver.DifferentialSystemSolver;
 
 public class KatrixMain {
