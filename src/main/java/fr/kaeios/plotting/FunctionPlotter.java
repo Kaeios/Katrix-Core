@@ -1,78 +1,34 @@
 package fr.kaeios.plotting;
 
 import fr.kaeios.api.computation.Function;
+import fr.kaeios.api.plotting.PositionedElement;
+import fr.kaeios.api.plotting.RenderedComponent;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunctionPlotter {
 
-    private static final Color[] COLORS = new Color[] {
-            Color.RED,
-            Color.BLUE,
-            Color.GREEN,
-            Color.ORANGE,
-            Color.MAGENTA
-    };
-
-    private final double minX;
-    private final double maxX;
-
-    private double minY = Double.MAX_VALUE;
-    private double maxY = Double.MIN_VALUE;
-
-    private final BufferedImage bufferedImage;
-    private final Graphics2D graphics;
-
-    private final Function[] functions;
+    private final List<PositionedElement> components = new ArrayList<>();
 
     public FunctionPlotter(Function[] functions, double minX, double maxX, int sizeX, int sizeY) {
-        this.functions = functions;
+        FunctionPlot functionPlot = new FunctionPlot(functions, minX, maxX, sizeX, sizeY);
+        GridPlot gridPlot = new GridPlot(minX, maxX, functionPlot.getMinY(), functionPlot.getMaxY(), sizeX , sizeY);
+        AxisPlot axisPlot = new AxisPlot(minX, maxX, functionPlot.getMinY(), functionPlot.getMaxY(), sizeX, sizeY, 20);
 
-        this.minX = minX;
-        this.maxX = maxX;
-
-        this.bufferedImage =  new BufferedImage(sizeX, sizeY, BufferedImage.TYPE_INT_RGB);
-        this.graphics = this.bufferedImage.createGraphics();
-
-        this.graphics.translate(0, this.bufferedImage.getHeight());
-        this.graphics.scale(1.0, -1.0);
+        components.add(gridPlot);
+        components.add(functionPlot);
+        components.add(axisPlot);
+        components.add(new ContourPlot(sizeX, sizeY));
     }
 
-    public void plot() {
-        // Clear
-        graphics.setColor(Color.WHITE);
-        graphics.setStroke(new BasicStroke(2));
-        graphics.fillRect(0, 0, this.bufferedImage.getWidth(), this.bufferedImage.getHeight());
-
-        double[][] values = new double[functions.length][this.bufferedImage.getWidth()];
-
-        double stepX = (maxX - minX) /this.bufferedImage.getWidth();
-
-        for(int x = 0; x < this.bufferedImage.getWidth() ; x++) {
-            for (int i = 0; i < functions.length; i++) {
-                values[i][x] = functions[i].compute(minX + x * stepX);
-                if(values[i][x] > maxY) this.maxY = values[i][x];
-                if(values[i][x] < minY) minY = values[i][x];
-            }
-        }
-
-        for (int i = 0; i < values.length; i++) {
-
-            graphics.setColor(COLORS[i % COLORS.length]);
-
-            for (int x = 0; x < values[i].length - 1; x++) {
-                int yPos = (int) ((values[i][x] - minY)/(maxY - minY) * this.bufferedImage.getHeight());
-                int nextYPos = (int) ((values[i][x+1] - minY)/(maxY - minY) * this.bufferedImage.getHeight());
-
-                graphics.drawLine(x, yPos, x+1, nextYPos);
-            }
-        }
-    }
-
+    /*
     public void showAxis() {
         // Draw 1 axis
         graphics.setColor(Color.GRAY);
@@ -83,35 +39,40 @@ public class FunctionPlotter {
         int axisPos = (int) Math.min(Math.max(0,  -minX/(maxX - minX) * this.bufferedImage.getWidth()), this.bufferedImage.getWidth() - 1);
         graphics.drawLine(axisPos, 0, axisPos, this.bufferedImage.getHeight() - 1);
     }
+*/
 
-    public void showGrid() {
-        graphics.setColor(Color.GRAY);
-        graphics.setStroke(new BasicStroke(1));
+    public void compute() {
+        List<Image> images = this.components.stream().map(RenderedComponent::render).collect(Collectors.toList());
 
-        int axisHeight = (int) Math.min(Math.max(0,  -minY/(maxY - minY) * this.bufferedImage.getHeight()), this.bufferedImage.getHeight() - 1);
-        int axisPos = (int) Math.min(Math.max(0,  -minX/(maxX - minX) * this.bufferedImage.getWidth()), this.bufferedImage.getWidth() - 1);
+        int maxX = 0;
+        int maxY = 0;
 
-        int axisStepY = this.bufferedImage.getHeight() / 10;
-
-        for (int i = axisHeight - axisStepY * (axisHeight/ axisStepY); i < this.bufferedImage.getHeight(); i += axisStepY) {
-            if(i == axisHeight) continue;
-            graphics.drawLine(0, i, this.bufferedImage.getWidth() - 1, i);
+        for (Image image : images) {
+            if(image.getWidth(null) > maxX) maxX = image.getWidth(null);
+            if(image.getHeight(null) > maxY) maxY = image.getHeight(null);
         }
 
-        int axisStepX = this.bufferedImage.getHeight() / 15;
+        BufferedImage image =  new BufferedImage(maxX, maxY, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = image.createGraphics();
 
-        for (int i = axisPos - axisStepX * (axisPos/ axisStepX); i < this.bufferedImage.getWidth(); i += axisStepX) {
-            if(i == axisPos) continue;
-            graphics.drawLine(i, 0, i, this.bufferedImage.getHeight() - 1);
+        graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        graphics.setColor(Color.WHITE);
+
+        for (int i = 0; i < images.size(); i++) {
+            PositionedElement component = components.get(i);
+            graphics.drawImage(images.get(i), component.getX(), component.getY(), null);
         }
 
-        graphics.setStroke(new BasicStroke(2));
-    }
 
-    public void save() {
+        graphics.dispose();
+
         File file = new File("myimage.png");
         try {
-            ImageIO.write(bufferedImage, "png", file);
+            ImageIO.write(image, "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

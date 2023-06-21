@@ -27,12 +27,13 @@ public class KatrixMain {
                 });
 
         Function[] functions = new DifferentialSystemSolver(A, I).solve();
+        Function[] debug = new Function[] {
+                x -> x,
+                x -> -x
+        };
 
         FunctionPlotter plot = new FunctionPlotter(functions, 0, 5, 1500, 1000);
-
-        plot.plot();
-        plot.showGrid();
-        plot.save();
+        plot.compute();
 
         Matrix B = new MatrixImpl(
                 new Double[][]{
