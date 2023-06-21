@@ -33,7 +33,7 @@ public class AxisNumberPlot implements PositionedElement {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
 
-        this.image = new BufferedImage(sizeX + offset, sizeY + offset, BufferedImage.TYPE_INT_ARGB);
+        this.image = new BufferedImage(sizeX + 2 * offset, sizeY + 2 * offset, BufferedImage.TYPE_INT_ARGB);
         this.graphics = this.image.createGraphics();
 
         plot();
@@ -53,9 +53,9 @@ public class AxisNumberPlot implements PositionedElement {
         int axisStepY = sizeY / 12;
         int axisStepX = sizeX / 16;
 
-        for (int i = axisHeight - axisStepY * (axisHeight/ axisStepY); i < sizeY; i += axisStepY) {
+        for (int i = axisHeight - axisStepY * (axisHeight / axisStepY); i <= sizeY; i += axisStepY) {
             double value = ((double) i / sizeY) * (maxY - minY) + minY;
-            graphics.drawString(String.format("%.2f", value), 0, sizeY - i);
+            graphics.drawString(String.format("%.2f", value), 0, sizeY - i + offset);
         }
 
         for (int i = axisPos - axisStepX * (axisPos/ axisStepX); i < sizeX; i += axisStepX) {
@@ -72,7 +72,7 @@ public class AxisNumberPlot implements PositionedElement {
 
     @Override
     public int getY() {
-        return 30;
+        return 0;
     }
 
     @Override

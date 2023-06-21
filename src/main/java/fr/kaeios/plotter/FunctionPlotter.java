@@ -28,7 +28,7 @@ public class FunctionPlotter {
         components.add(functionPlot);
         components.add(axisPlot);
         components.add(numberPlot);
-      //  components.add(new ContourPlot(sizeX, sizeY));
+        components.add(new ContourPlot(sizeX, sizeY));
     }
 
     /*
