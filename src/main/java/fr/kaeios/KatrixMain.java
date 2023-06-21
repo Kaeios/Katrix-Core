@@ -5,6 +5,7 @@ import fr.kaeios.api.matrix.Matrix;
 import fr.kaeios.api.matrix.TransformedMatrix;
 import fr.kaeios.matrix.MatrixImpl;
 import fr.kaeios.matrix.operator.MatrixOperators;
+import fr.kaeios.matrix.suppliers.RandomSupplier;
 import fr.kaeios.plotter.FunctionPlotter;
 import fr.kaeios.solver.DifferentialSystemSolver;
 
@@ -14,20 +15,36 @@ public class KatrixMain {
 
         long t1 = System.currentTimeMillis();
 
+        Matrix A = new MatrixImpl(100, 100, new RandomSupplier());
+
+        /*
         Matrix A = new MatrixImpl(
                 new Double[][]{
-                        {-1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
-                        {1.0D, -2.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
-                        {0.0D, 2.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
-                        {0.0D, 0.0D, 1.0D, -0.5D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
-                        {0.0D, 0.0D, 0.0D, 0.5D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
-                        {0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -0.05D, 0.0D, 0.0D, 0.0D, 0.0D},
-                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.05D, -1.0D, 0.0D, 0.0D, 0.0D},
-                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, 0.0D, -1.0D, 0.0D},
-                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, -0.5D, 0.0D, 0.0D},
-                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, 1.0D, 0.0D},
+                        {-1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {1.0D, -2.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 2.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 1.0D, -0.5D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.5D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -0.05D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.05D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, 0.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, -0.5D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, 1.0D, -2.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 2.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -0.5D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -2.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 2.0D, -3.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 3.0D, -1.0D, 0.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, -2.0D, 0.0D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 2.0D, -0.5D, 0.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.5D, -1.0D, 0.0D},
+                        {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, -1.0D, 0.0D},
                 });
+        */
 
+        Matrix I = new MatrixImpl(1, 100, new RandomSupplier());
+        /*
         Matrix I = new MatrixImpl(
                 new Double[][]{
                         {1.0D},
@@ -37,16 +54,29 @@ public class KatrixMain {
                         {0.0D},
                         {0.0D},
                         {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
+                        {0.0D},
                 });
+        */
 
         Function[] functions = new DifferentialSystemSolver(A, I).solve();
 
+        long t2 = System.currentTimeMillis();
+        System.out.println(t2 - t1);
+
         FunctionPlotter plot = new FunctionPlotter(functions, 0, 8, 1500, 1000);
         plot.compute();
-
-        long t2 = System.currentTimeMillis();
-
-        System.out.println(t2 - t1);
 
         Matrix B = new MatrixImpl(
                 new Double[][]{
