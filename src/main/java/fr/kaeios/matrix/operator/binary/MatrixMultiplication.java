@@ -9,11 +9,11 @@ public class MatrixMultiplication implements BinaryOperator<Matrix, Matrix, Matr
 
     @Override
     public Matrix compute(Matrix matrix, Matrix matrix2) {
-        Matrix result = new MatrixImpl(matrix.getRowCount(), matrix2.getColumnsCount(), DefaultSuppliers.NULL);
+        Matrix result = new MatrixImpl(matrix.getRowsCount(), matrix2.getColumnsCount(), DefaultSuppliers.NULL);
 
-        for (int i = 0; i < result.getRowCount(); i++) {
+        for (int i = 0; i < result.getRowsCount(); i++) {
             for (int j = 0; j < result.getColumnsCount(); j++) {
-                for(int k = 0; k < matrix2.getRowCount(); k++) {
+                for(int k = 0; k < matrix2.getRowsCount(); k++) {
                     result.getValues()[i][j] += matrix.getValues()[i][k] * matrix2.getValues()[k][j];
                 }
             }

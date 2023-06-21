@@ -8,7 +8,7 @@ public class MatrixTranspose implements UnaryOperator<Matrix, Matrix> {
 
     @Override
     public Matrix compute(Matrix operand) {
-        return new MatrixImpl(operand.getColumnsCount(), operand.getRowCount(), (x, y) -> operand.getValues()[y][x]);
+        return new MatrixImpl(operand.getColumnsCount(), operand.getRowsCount(), (x, y) -> operand.getValues()[y][x]);
     }
 
 }

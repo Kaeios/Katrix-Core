@@ -14,7 +14,7 @@ public class MatrixTridiagonalize implements UnaryOperator<TransformedMatrix, Ma
     @Override
     public TransformedMatrix compute(Matrix operand) {
 
-        final int size = operand.getRowCount();
+        final int size = operand.getRowsCount();
 
         Matrix householder = new MatrixImpl(operand.getValues());
         Double[] diagonal = new Double[size];

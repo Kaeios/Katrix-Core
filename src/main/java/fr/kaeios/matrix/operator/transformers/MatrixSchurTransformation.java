@@ -17,7 +17,7 @@ public class MatrixSchurTransformation implements UnaryOperator<TransformedMatri
         Matrix triangle = hessenberg.getTransformation()[1];
         Matrix pass = hessenberg.getTransformation()[0];
 
-        int size = triangle.getRowCount();
+        int size = triangle.getRowsCount();
 
         // shift information
         ShiftInfo shift = new ShiftInfo();
@@ -127,7 +127,7 @@ public class MatrixSchurTransformation implements UnaryOperator<TransformedMatri
 
     private void performDoubleQRStep(Matrix triangle, Matrix pass, int il, int im, int iu, ShiftInfo shift, double[] hVec) {
 
-        int size = triangle.getRowCount();
+        int size = triangle.getRowsCount();
         double p = hVec[0];
         double q = hVec[1];
         double r = hVec[2];
@@ -252,9 +252,9 @@ public class MatrixSchurTransformation implements UnaryOperator<TransformedMatri
 
     private double getHessenbergNorm(Matrix matrix) {
         double norm = 0.0;
-        for (int i = 0; i < matrix.getRowCount(); i++) {
+        for (int i = 0; i < matrix.getRowsCount(); i++) {
             // as matrix T is (quasi-)triangular, also take the sub-diagonal element into account
-            for (int j = Math.max(i - 1, 0); j < matrix.getRowCount(); j++) {
+            for (int j = Math.max(i - 1, 0); j < matrix.getRowsCount(); j++) {
                 norm += Math.abs(matrix.getValues()[i][j]);
             }
         }

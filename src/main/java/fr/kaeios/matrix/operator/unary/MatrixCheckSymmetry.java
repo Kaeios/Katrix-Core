@@ -8,7 +8,7 @@ public class MatrixCheckSymmetry implements UnaryOperator<Boolean, Matrix> {
     @Override
     public Boolean compute(Matrix operand) {
 
-        int size = operand.getRowCount();
+        int size = operand.getRowsCount();
         double relativeTolerance = 10 * size * size * Double.longBitsToDouble((1023L - 53L) << 52);
 
         for (int i = 0; i < size; i++) {

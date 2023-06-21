@@ -32,7 +32,7 @@ public class MatrixDiagonalize implements UnaryOperator<TransformedMatrix, Matri
     private TransformedMatrix findEigenVectors(Matrix householder, Matrix tridiagonal) {
         Matrix z = new MatrixImpl(householder.getValues());
 
-        int size = householder.getRowCount();
+        int size = householder.getRowsCount();
 
         Double[] eigenValues = new Double[size];
         Double[] e = new Double[size];
@@ -170,7 +170,7 @@ public class MatrixDiagonalize implements UnaryOperator<TransformedMatrix, Matri
 
     private TransformedMatrix findEigenVectorsFromSchur(Matrix triangle, Matrix pass) {
 
-        final int size = triangle.getRowCount();
+        final int size = triangle.getRowsCount();
 
         // compute matrix norm
         double norm = 0.0;

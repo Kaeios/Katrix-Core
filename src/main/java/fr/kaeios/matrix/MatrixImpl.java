@@ -79,7 +79,7 @@ public class MatrixImpl implements Matrix {
     }
 
     @Override
-    public int getRowCount() {
+    public int getRowsCount() {
         return rows;
     }
 

@@ -11,7 +11,7 @@ public class MatrixDeterminant implements UnaryOperator<Double, Matrix> {
     public Double compute(Matrix operand) {
         double det = 0.0D;
 
-        int size = operand.getRowCount();
+        int size = operand.getRowsCount();
 
         if(size == 1) return operand.getValues()[0][0];
 

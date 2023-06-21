@@ -10,7 +10,7 @@ public class MatrixInverse implements UnaryOperator<Matrix, Matrix> {
     @Override
     public Matrix compute(Matrix matrix) {
         Matrix operand = new MatrixImpl(matrix.getValues());
-        int size = operand.getRowCount();
+        int size = operand.getRowsCount();
 
         Matrix x = new MatrixImpl(size, size, DefaultSuppliers.NULL);
         Matrix b  = new MatrixImpl(size, size);

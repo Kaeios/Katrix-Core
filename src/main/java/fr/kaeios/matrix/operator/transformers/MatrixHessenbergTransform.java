@@ -11,7 +11,7 @@ public class MatrixHessenbergTransform implements UnaryOperator<TransformedMatri
     @Override
     public TransformedMatrix compute(Matrix operand) {
 
-        int size = operand.getRowCount();
+        int size = operand.getRowsCount();
         Matrix householder = new MatrixImpl(operand.getValues());
         Double[] ort = new Double[size];
 

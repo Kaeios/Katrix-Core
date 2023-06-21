@@ -9,7 +9,7 @@ public class MatrixTrace implements UnaryOperator<Double, Matrix> {
     public Double compute(Matrix operand) {
         double sum = 0.0D;
 
-        for (int n = 0; n < operand.getRowCount(); n++) {
+        for (int n = 0; n < operand.getRowsCount(); n++) {
             sum += operand.getValues()[n][n];
         }
 

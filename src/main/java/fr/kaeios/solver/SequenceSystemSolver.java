@@ -28,14 +28,14 @@ public class SequenceSystemSolver implements SystemSolver<Sequence[]> {
 
         Matrix constants = diag.getTransformation()[2].apply(zero, MatrixOperators.MUL);
 
-        Sequence[] result = new Sequence[this.matrix.getRowCount()];
+        Sequence[] result = new Sequence[this.matrix.getRowsCount()];
 
-        for (int i = 0; i < this.matrix.getRowCount(); i++) {
+        for (int i = 0; i < this.matrix.getRowsCount(); i++) {
             Double[] pRow = diag.getTransformation()[0].getValues()[i];
             result[i] = input -> {
                 double sum = 0.0D;
 
-                for (int j = 0; j < this.matrix.getRowCount(); j++) {
+                for (int j = 0; j < this.matrix.getRowsCount(); j++) {
                     sum += pRow[j] * constants.getValues()[j][0] * Math.pow(bases.getValues()[0][j], input);
                 }
 

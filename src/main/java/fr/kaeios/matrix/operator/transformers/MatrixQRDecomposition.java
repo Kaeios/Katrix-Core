@@ -11,7 +11,7 @@ public class MatrixQRDecomposition implements UnaryOperator<TransformedMatrix, M
     @Override
     public TransformedMatrix compute(Matrix operand) {
 
-        int m = operand.getRowCount();
+        int m = operand.getRowsCount();
         int n = operand.getColumnsCount();
 
         Matrix qrt = operand.apply(MatrixOperators.TRANSPOSE);
@@ -59,7 +59,7 @@ public class MatrixQRDecomposition implements UnaryOperator<TransformedMatrix, M
                  * |v|^2 = -2a*(qr[minor][minor]), so
                  * alpha = -<x,v>/(a*qr[minor][minor])
                  */
-                for (int col = minor+1; col < qrt.getRowCount(); col++) {
+                for (int col = minor+1; col < qrt.getRowsCount(); col++) {
                     Double[] qrtCol = qrt.getValues()[col];
                     double alpha = 0;
                     for (int row = minor; row < qrtCol.length; row++) {
@@ -79,7 +79,7 @@ public class MatrixQRDecomposition implements UnaryOperator<TransformedMatrix, M
         Compute R
          */
         // R is supposed to be m x n
-        n = qrt.getRowCount();
+        n = qrt.getRowsCount();
         m = qrt.getColumnsCount();
         Double[][] ra = new Double[m][n];
         // copy the diagonal from rDiag and the upper triangle of qr

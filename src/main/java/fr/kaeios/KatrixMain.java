@@ -75,7 +75,7 @@ public class KatrixMain {
     }
 
     static void printMatrix(Matrix m) {
-        for (int row = 0; row < m.getRowCount(); row++) {
+        for (int row = 0; row < m.getRowsCount(); row++) {
             for (int col = 0; col < m.getColumnsCount(); col++) {
                 System.out.printf("%+.4f\t", m.getValues()[row][col]);
             }
