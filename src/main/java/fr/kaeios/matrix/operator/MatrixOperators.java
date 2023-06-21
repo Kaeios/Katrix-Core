@@ -7,10 +7,7 @@ import fr.kaeios.api.matrix.TransformedMatrix;
 import fr.kaeios.matrix.operator.binary.MatrixAddition;
 import fr.kaeios.matrix.operator.binary.MatrixMultiplication;
 import fr.kaeios.matrix.operator.binary.MatrixScalarMultiplication;
-import fr.kaeios.matrix.operator.transformers.MatrixDiagonalize;
-import fr.kaeios.matrix.operator.transformers.MatrixHessenbergTransform;
-import fr.kaeios.matrix.operator.transformers.MatrixSchurTransformation;
-import fr.kaeios.matrix.operator.transformers.MatrixTridiagonalize;
+import fr.kaeios.matrix.operator.transformers.*;
 import fr.kaeios.matrix.operator.unary.MatrixInverse;
 import fr.kaeios.matrix.operator.unary.MatrixTranspose;
 import fr.kaeios.matrix.operator.unary.*;
@@ -42,5 +39,6 @@ public class MatrixOperators {
     public static final UnaryOperator<TransformedMatrix, Matrix> DIAGONALIZE = new MatrixDiagonalize();
     public static final UnaryOperator<TransformedMatrix, Matrix> HESSENBERG = new MatrixHessenbergTransform();
     public static final UnaryOperator<TransformedMatrix, Matrix> SCHUR = new MatrixSchurTransformation();
+    public static final UnaryOperator<TransformedMatrix, Matrix> QR = new MatrixQRDecomposition();
 
 }
