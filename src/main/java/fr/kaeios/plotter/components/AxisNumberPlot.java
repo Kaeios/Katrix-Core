@@ -4,6 +4,8 @@ import fr.kaeios.api.plotting.PositionedElement;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class AxisNumberPlot implements PositionedElement {
 
@@ -53,14 +55,27 @@ public class AxisNumberPlot implements PositionedElement {
         int axisStepY = sizeY / 12;
         int axisStepX = sizeX / 16;
 
-        for (int i = axisHeight - axisStepY * (axisHeight / axisStepY); i <= sizeY; i += axisStepY) {
-            double value = ((double) i / sizeY) * (maxY - minY) + minY;
-            graphics.drawString(String.format("%.2f", value), 0, sizeY - i + offset);
+        for (int i = axisHeight - axisStepY * (axisHeight/ axisStepY); i < this.sizeY; i += axisStepY) {
+
+            double value = ((1.0D - ((double) i / sizeY)) * (maxY-minY)) + minY;
+            value = Math.ceil(value * 100) / 100;
+            graphics.drawString(
+                    String.format("%.2f", value),
+                    0,
+                    i + offset
+            );
         }
 
-        for (int i = axisPos - axisStepX * (axisPos/ axisStepX); i < sizeX; i += axisStepX) {
-            double value = ((double) i / sizeX) * (maxX - minX) + minX;
-            graphics.drawString(String.format("%.2f", value), i + offset, this.image.getHeight() - 10);
+
+        for (int i = axisPos - axisStepX * (axisPos/ axisStepX); i < this.sizeX; i += axisStepX) {
+            double value = ((double) i / sizeX) * (maxX-minX) + minX;
+            value = Math.ceil(value * 100) / 100;
+            graphics.drawString(
+                    String.format("%.2f", value),
+                    i + offset/2,
+                    sizeY + offset + offset/2
+            );
+          //  graphics.drawLine(i, 0, i, this.image.getHeight());
         }
 
     }

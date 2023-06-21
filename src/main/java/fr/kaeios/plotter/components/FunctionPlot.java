@@ -13,7 +13,12 @@ public class FunctionPlot implements PositionedElement {
             Color.BLUE,
             Color.GREEN,
             Color.ORANGE,
-            Color.MAGENTA
+            Color.MAGENTA,
+            Color.BLACK,
+            Color.CYAN,
+            Color.PINK,
+            Color.YELLOW,
+            Color.LIGHT_GRAY
     };
 
     private final double minX;
