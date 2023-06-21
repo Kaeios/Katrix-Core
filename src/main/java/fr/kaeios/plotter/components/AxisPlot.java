@@ -47,8 +47,8 @@ public class AxisPlot implements PositionedElement {
         int axisHeight = (int) Math.min(Math.max(0,  -minY/(maxY - minY) * sizeY), sizeY - 1);
         graphics.drawLine(offset, sizeY - axisHeight + offset, sizeX - 1 + offset, sizeY - axisHeight + offset);
 
-       int axisPos = (int) Math.min(Math.max(0,  -minX/(maxX - minX) * sizeX), sizeX - 1);
-       graphics.drawLine(axisPos + offset, offset, axisPos + offset, sizeY - 1 + offset);
+        int axisPos = (int) Math.min(Math.max(0,  -minX/(maxX - minX) * sizeX), sizeX - 1);
+        graphics.drawLine(axisPos + offset, offset, axisPos + offset, sizeY - 1 + offset);
     }
 
     @Override

@@ -37,32 +37,37 @@ public class GridPlot implements PositionedElement {
         graphics.setColor(Color.GRAY);
         graphics.setStroke(new BasicStroke(1));
 
-        int axisHeight = this.image.getHeight() - (int) Math.min(Math.max(20,  -minY/(maxY - minY) * this.image.getHeight()), this.image.getHeight() - 21);
-        int axisPos = (int) Math.min(Math.max(20,  -minX/(maxX - minX) * this.image.getWidth()), this.image.getWidth() - 21);
+        int axisHeight = (int) Math.min(Math.max(0,  -minY/(maxY - minY) * this.image.getHeight()), this.image.getHeight() - 1);
+        int axisPos = (int) Math.min(Math.max(0,  -minX/(maxX - minX) * this.image.getWidth()), this.image.getWidth() - 1);
 
         int axisStepY = this.image.getHeight() / 12;
         int axisStepX = this.image.getWidth() / 16;
 
         for (int i = axisHeight - axisStepY * (axisHeight/ axisStepY); i < this.image.getHeight(); i += axisStepY) {
             if(i == axisHeight) continue;
-            graphics.drawLine(0, this.image.getHeight() - i, this.image.getWidth() - 1, this.image.getHeight() - i);
+            graphics.drawLine(
+                    0,
+                    this.image.getHeight() - i ,
+                    this.image.getWidth() - 1,
+                    this.image.getHeight() - i
+            );
         }
 
 
         for (int i = axisPos - axisStepX * (axisPos/ axisStepX); i < this.image.getWidth(); i += axisStepX) {
             if(i == axisPos) continue;
-            graphics.drawLine(i, this.image.getHeight() - 1, i, 0);
+            graphics.drawLine(i, 0, i, this.image.getHeight());
         }
     }
 
     @Override
     public int getX() {
-        return 20;
+        return 30;
     }
 
     @Override
     public int getY() {
-        return 20;
+        return 30;
     }
 
     @Override

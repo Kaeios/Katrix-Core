@@ -3,10 +3,7 @@ package fr.kaeios.plotter;
 import fr.kaeios.api.computation.Function;
 import fr.kaeios.api.plotting.PositionedElement;
 import fr.kaeios.api.plotting.RenderedComponent;
-import fr.kaeios.plotter.components.AxisPlot;
-import fr.kaeios.plotter.components.ContourPlot;
-import fr.kaeios.plotter.components.FunctionPlot;
-import fr.kaeios.plotter.components.GridPlot;
+import fr.kaeios.plotter.components.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,12 +21,14 @@ public class FunctionPlotter {
     public FunctionPlotter(Function[] functions, double minX, double maxX, int sizeX, int sizeY) {
         FunctionPlot functionPlot = new FunctionPlot(functions, minX, maxX, sizeX, sizeY);
         GridPlot gridPlot = new GridPlot(minX, maxX, functionPlot.getMinY(), functionPlot.getMaxY(), sizeX , sizeY);
-        AxisPlot axisPlot = new AxisPlot(minX, maxX, functionPlot.getMinY(), functionPlot.getMaxY(), sizeX, sizeY, 20);
+        AxisPlot axisPlot = new AxisPlot(minX, maxX, functionPlot.getMinY(), functionPlot.getMaxY(), sizeX, sizeY, 30);
+        AxisNumberPlot numberPlot = new AxisNumberPlot(minX, maxX, functionPlot.getMinY(), functionPlot.getMaxY(), sizeX, sizeY, 30);
 
         components.add(gridPlot);
         components.add(functionPlot);
         components.add(axisPlot);
-        components.add(new ContourPlot(sizeX, sizeY));
+        components.add(numberPlot);
+      //  components.add(new ContourPlot(sizeX, sizeY));
     }
 
     /*

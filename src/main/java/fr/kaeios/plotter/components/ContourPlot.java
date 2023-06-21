@@ -27,12 +27,12 @@ public class ContourPlot implements PositionedElement {
 
     @Override
     public int getX() {
-        return 20;
+        return 30;
     }
 
     @Override
     public int getY() {
-        return 20;
+        return 30;
     }
 
     @Override
