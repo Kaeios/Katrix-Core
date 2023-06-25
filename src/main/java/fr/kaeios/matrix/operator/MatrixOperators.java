@@ -40,5 +40,6 @@ public class MatrixOperators {
     public static final UnaryOperator<TransformedMatrix, Matrix> HESSENBERG = new MatrixHessenbergTransform();
     public static final UnaryOperator<TransformedMatrix, Matrix> SCHUR = new MatrixSchurTransformation();
     public static final UnaryOperator<TransformedMatrix, Matrix> QR = new MatrixQRDecomposition();
+    public static final UnaryOperator<TransformedMatrix, Matrix> LU = new MatrixLUDecomposition();
 
 }
