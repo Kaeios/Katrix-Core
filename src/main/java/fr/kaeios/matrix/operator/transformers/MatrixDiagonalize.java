@@ -173,12 +173,7 @@ public class MatrixDiagonalize implements UnaryOperator<TransformedMatrix, Matri
         final int size = triangle.getRowsCount();
 
         // compute matrix norm
-        double norm = 0.0;
-        for (int i = 0; i < size; i++) {
-            for (int j = Math.max(i - 1, 0); j < size; j++) {
-                norm += Math.abs(triangle.getValues()[i][j]);
-            }
-        }
+        double norm = triangle.apply(MatrixOperators.L1_NORM);
 
         double[] realEigenvalues = new double[size];
         double[] imagEigenvalues = new double[size];

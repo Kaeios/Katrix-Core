@@ -21,9 +21,19 @@ public class KatrixMain {
                         {0.0D, 2.0D, 0.0D},
                 });
 
-        System.out.println("============");
+        Matrix Z = new MatrixImpl(
+                new Double[][]{
+                        {1.0D},
+                        {0.0D},
+                        {0.0D},
+                });
 
-        printMatrix(B.apply(MatrixOperators.LU).getTransformation()[1]);
+        Function[] G = new DifferentialSystemSolver(B, Z).solve();
+
+        FunctionPlotter plotter = new FunctionPlotter(G, 0.0D, 5.0D, 1500, 1000);
+        plotter.compute();
+
+        System.out.println("============");
 
     }
 

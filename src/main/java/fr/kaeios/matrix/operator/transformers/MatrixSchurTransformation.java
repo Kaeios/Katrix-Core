@@ -250,17 +250,6 @@ public class MatrixSchurTransformation implements UnaryOperator<TransformedMatri
         }
     }
 
-    private double getHessenbergNorm(Matrix matrix) {
-        double norm = 0.0;
-        for (int i = 0; i < matrix.getRowsCount(); i++) {
-            // as matrix T is (quasi-)triangular, also take the sub-diagonal element into account
-            for (int j = Math.max(i - 1, 0); j < matrix.getRowsCount(); j++) {
-                norm += Math.abs(matrix.getValues()[i][j]);
-            }
-        }
-        return norm;
-    }
-
     /**
      * Find the first small sub-diagonal element and returns its index.
      *
@@ -268,7 +257,7 @@ public class MatrixSchurTransformation implements UnaryOperator<TransformedMatri
      * @return the index of the first small sub-diagonal element
      */
     private int findSmallSubDiagonalElement(Matrix matrix, int startIdx) {
-        double norm = getHessenbergNorm(matrix);
+        double norm = matrix.apply(MatrixOperators.L1_NORM);
 
         int l = startIdx;
         while (l > 0) {
