@@ -4,6 +4,7 @@ import fr.kaeios.api.computation.UnaryOperator;
 import fr.kaeios.api.matrix.Matrix;
 import fr.kaeios.api.matrix.TransformedMatrix;
 import fr.kaeios.matrix.MatrixImpl;
+import fr.kaeios.matrix.operator.MatrixOperators;
 import fr.kaeios.matrix.suppliers.DefaultSuppliers;
 
 public class MatrixLUDecomposition implements UnaryOperator<TransformedMatrix, Matrix> {
@@ -13,37 +14,46 @@ public class MatrixLUDecomposition implements UnaryOperator<TransformedMatrix, M
         int size = operand.getRowsCount();
 
         Matrix lower = new MatrixImpl(size, size, DefaultSuppliers.IDENTITY);
-        Matrix upper = new MatrixImpl(size, size, DefaultSuppliers.NULL);
+        Matrix upper = new MatrixImpl(operand.getValues());
 
-        // Decomposing matrix into Upper and Lower
-        // triangular matrix
+        Matrix permutations = new MatrixImpl(size, size, DefaultSuppliers.IDENTITY);
+
         for (int i = 0; i < size; i++) {
-            // Upper Triangular
-            for (int k = i; k < size; k++) {
-                // Summation of L(i, j) * U(j, k)
-                int sum = 0;
-                for (int j = 0; j < i; j++)
-                    sum += (lower.getValues()[i][j] * upper.getValues()[j][k]);
 
-                // Evaluating U(i, k)
-                upper.getValues()[i][k] = operand.getValues()[i][k] - sum;
+            if(Math.abs(upper.getValues()[i][i]) < 0.00001D) {
+                for(int row = i + 1; row < size; row++) {
+                    if(Math.abs(upper.getValues()[row][row]) < 0.00001D) continue;
+
+                    Matrix P = new MatrixImpl(size, size, DefaultSuppliers.IDENTITY);
+
+                    P.getValues()[i][i] = 0.0D;
+                    P.getValues()[row][row] = 0.0D;
+
+                    P.getValues()[i][row] = 1.0D;
+                    P.getValues()[row][i] = 1.0D;
+
+                    upper = P.apply(upper, MatrixOperators.MUL);
+                    permutations = P.apply(permutations, MatrixOperators.MUL);
+
+                    break;
+                }
             }
 
-            // Lower Triangular
-            for (int k = i + 1; k < size; k++)
-            {
-                // Summation of L(k, j) * U(j, i)
-                int sum = 0;
-                for (int j = 0; j < i; j++)
-                    sum += (lower.getValues()[k][j] * upper.getValues()[j][i]);
+            for (int row = i + 1; row < size; row++) {
 
-                // Evaluating L(k, i)
-                lower.getValues()[k][i]
-                        = (operand.getValues()[k][i] - sum) / upper.getValues()[i][i];
+                double ratio = (upper.getValues()[row][i] / upper.getValues()[i][i]);
+
+                for (int col = row - 1; col < size; col++) {
+                    upper.getValues()[row][col] = upper.getValues()[row][col] - (ratio * upper.getValues()[i][col]);
+                    lower.getValues()[row][col] = lower.getValues()[row][col] + (ratio * lower.getValues()[i][col]);
+                }
+
             }
         }
 
-        return () -> new Matrix[]{lower, upper};
+        Matrix[] result = new Matrix[]{ permutations, lower, upper };
+
+        return () -> result;
     }
 
 }

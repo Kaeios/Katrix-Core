@@ -11,7 +11,7 @@ public class MatrixDeterminant implements UnaryOperator<Double, Matrix> {
     @Override
     public Double compute(Matrix operand) {
 
-        Matrix reduced = operand.apply(MatrixOperators.LU).getTransformation()[1];
+        Matrix reduced = operand.apply(MatrixOperators.LU).getTransformation()[2] ;
 
         double det = 1.0D;
 
