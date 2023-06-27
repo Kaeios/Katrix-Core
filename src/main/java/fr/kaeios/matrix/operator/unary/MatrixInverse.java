@@ -5,6 +5,7 @@ import fr.kaeios.api.matrix.Matrix;
 import fr.kaeios.matrix.MatrixImpl;
 import fr.kaeios.matrix.suppliers.DefaultSuppliers;
 
+// TODO Refactor using LU
 public class MatrixInverse implements UnaryOperator<Matrix, Matrix> {
 
     @Override
@@ -18,7 +19,7 @@ public class MatrixInverse implements UnaryOperator<Matrix, Matrix> {
         int[] index = new int[size];
 
         // Transform the matrix into an upper triangle
-        gaussian(operand, index);
+        gaussian(operand, index);;
 
         // Update the matrix b[i][j] with the ratios stored
         for (int i = 0; i < (size - 1); i++)

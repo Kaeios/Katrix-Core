@@ -43,7 +43,7 @@ public class MatrixLUDecomposition implements UnaryOperator<TransformedMatrix, M
 
                 double ratio = (upper.getValues()[row][i] / upper.getValues()[i][i]);
 
-                for (int col = row - 1; col < size; col++) {
+                for (int col = i; col < size; col++) {
                     upper.getValues()[row][col] = upper.getValues()[row][col] - (ratio * upper.getValues()[i][col]);
                     lower.getValues()[row][col] = lower.getValues()[row][col] + (ratio * lower.getValues()[i][col]);
                 }

@@ -1,12 +1,10 @@
 package fr.kaeios;
 
-import fr.kaeios.api.computation.Function;
 import fr.kaeios.api.matrix.Matrix;
+import fr.kaeios.api.matrix.TransformedMatrix;
 import fr.kaeios.matrix.MatrixImpl;
 import fr.kaeios.matrix.operator.MatrixOperators;
-import fr.kaeios.matrix.operator.unary.MatrixRank;
-import fr.kaeios.plotter.FunctionPlotter;
-import fr.kaeios.solver.DifferentialSystemSolver;
+import fr.kaeios.matrix.operator.transformers.MatrixRowEchelonDecomposition;
 
 public class KatrixMain {
 
@@ -16,28 +14,37 @@ public class KatrixMain {
 
         Matrix B = new MatrixImpl(
                 new Double[][]{
-                        {-1.0D, 0.0D, 0.0D},
-                        {1.0D, -2.0D, 0.0D},
-                        {0.0D, 2.0D, 0.0D},
+                        {3.0D, -0.1D, -0.2D},
+                        {0.1D, 7.0D, -0.3D},
+                        {0.3D, -0.2D, 10.0D},
                 });
 
-        Matrix Z = new MatrixImpl(
-                new Double[][]{
-                        {1.0D},
-                        {0.0D},
-                        {0.0D},
-                });
+        printMatrix(B);
 
-        Function[] G = new DifferentialSystemSolver(B, Z).solve();
+        TransformedMatrix ECH = B.apply(new MatrixRowEchelonDecomposition());
 
-        FunctionPlotter plotter = new FunctionPlotter(G, 0.0D, 5.0D, 1500, 1000);
-        plotter.compute();
+        printMatrix(
+                ECH.getTransformation()[0]
+        );
 
-        System.out.println("============");
+        printMatrix(
+                ECH.getTransformation()[1]
+        );
+
+        printMatrix(
+                ECH.getTransformation()[2]
+        );
+
+        printMatrix(
+                ECH.getTransformation()[0]
+                        .apply(ECH.getTransformation()[1], MatrixOperators.MUL)
+                        .apply(ECH.getTransformation()[2], MatrixOperators.MUL)
+        );
 
     }
 
     public static void printMatrix(Matrix m) {
+        System.out.println("============");
         for (int row = 0; row < m.getRowsCount(); row++) {
             for (int col = 0; col < m.getColumnsCount(); col++) {
                 System.out.printf("%+.4f\t", m.getValues()[row][col]);

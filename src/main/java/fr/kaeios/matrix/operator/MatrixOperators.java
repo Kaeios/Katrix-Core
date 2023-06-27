@@ -31,6 +31,7 @@ public class MatrixOperators {
     public static final UnaryOperator<Double, Matrix> TRACE = new MatrixTrace();
     public static final UnaryOperator<Double, Matrix> L1_NORM = new MatrixNormL1();
     public static final UnaryOperator<Double, Matrix> L2_NORM = new MatrixNormL2();
+    public static final UnaryOperator<Double, Matrix> COND_NUMBER = new MatrixNormL2();
     public static final UnaryOperator<Boolean, Matrix> CHECK_SYM = new MatrixCheckSymmetry();
 
     /*
