@@ -1,3 +1,6 @@
+/*
+Code from apache commons
+ */
 package fr.kaeios.matrix.operator.transformers;
 
 import fr.kaeios.api.computation.UnaryOperator;

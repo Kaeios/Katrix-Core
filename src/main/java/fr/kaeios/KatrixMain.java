@@ -24,6 +24,8 @@ public class KatrixMain {
         y(0) = 0
         z(0) = 0
 
+        solution is plotted between 0 and 2 on a g
+
      */
 
     public static void main(String[] args) {
@@ -49,8 +51,9 @@ public class KatrixMain {
         DifferentialSystemSolver solver = new DifferentialSystemSolver(A, B);
         Function[] solutions = solver.solve();
 
-        // Plot system on a png named diff_solutions.png
-        FunctionPlotter plotter = new FunctionPlotter(solutions, 0, 2, 1920, 1080);
+        // Plot system between 0 and 6 on a 1920*1080 image
+        FunctionPlotter plotter = new FunctionPlotter(solutions, 0, 6, 1920, 1080);
+        // Save result as diff_solutions.png
         plotter.compute("diff_solutions");
     }
 
