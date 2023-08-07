@@ -44,7 +44,7 @@ public class FunctionPlotter {
     }
 */
 
-    public void compute() {
+    public void compute(String outputName) {
         List<Image> images = this.components.stream().map(RenderedComponent::render).collect(Collectors.toList());
 
         int maxX = 0;
@@ -73,7 +73,7 @@ public class FunctionPlotter {
 
         graphics.dispose();
 
-        File file = new File("myimage.png");
+        File file = new File(outputName + ".png");
         try {
             ImageIO.write(image, "png", file);
         } catch (IOException e) {

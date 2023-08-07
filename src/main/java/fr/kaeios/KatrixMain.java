@@ -1,46 +1,57 @@
 package fr.kaeios;
 
+import fr.kaeios.api.computation.Function;
 import fr.kaeios.api.matrix.Matrix;
 import fr.kaeios.api.matrix.TransformedMatrix;
 import fr.kaeios.matrix.MatrixImpl;
 import fr.kaeios.matrix.operator.MatrixOperators;
 import fr.kaeios.matrix.operator.transformers.MatrixRowEchelonDecomposition;
+import fr.kaeios.plotter.FunctionPlotter;
+import fr.kaeios.solver.DifferentialSystemSolver;
 
 public class KatrixMain {
 
+    /*
+        Sample to solve differential system of equation
+
+        x(t) = -x'(t)
+        y(t) = x'(t) - 2 * y'(t)
+        z(t) = 2 * y'(t)
+
+        And
+
+        x(0) = 1
+        y(0) = 0
+        z(0) = 0
+
+     */
+
     public static void main(String[] args) {
 
-        long t1 = System.currentTimeMillis();
-
-        Matrix B = new MatrixImpl(
+        // Coefficient of the system
+        Matrix A = new MatrixImpl(
                 new Double[][]{
-                        {3.0D, -0.1D, -0.2D},
-                        {0.1D, 7.0D, -0.3D},
-                        {0.3D, -0.2D, 10.0D},
+                        {-1.0D, 0.0D, 0.0D},
+                        {1.0D, -2.0D, 0.0D},
+                        {0.0D, 2.0D, 0.0D},
                 });
 
-        printMatrix(B);
-
-        TransformedMatrix ECH = B.apply(new MatrixRowEchelonDecomposition());
-
-        printMatrix(
-                ECH.getTransformation()[0]
+        // Initial conditions
+        Matrix B = new MatrixImpl(
+                new Double[][] {
+                        {1.0D},
+                        {0.0D},
+                        {0.0D}
+                }
         );
 
-        printMatrix(
-                ECH.getTransformation()[1]
-        );
+        // Solve system
+        DifferentialSystemSolver solver = new DifferentialSystemSolver(A, B);
+        Function[] solutions = solver.solve();
 
-        printMatrix(
-                ECH.getTransformation()[2]
-        );
-
-        printMatrix(
-                ECH.getTransformation()[0]
-                        .apply(ECH.getTransformation()[1], MatrixOperators.MUL)
-                        .apply(ECH.getTransformation()[2], MatrixOperators.MUL)
-        );
-
+        // Plot system on a png named diff_solutions.png
+        FunctionPlotter plotter = new FunctionPlotter(solutions, 0, 2, 1920, 1080);
+        plotter.compute("diff_solutions");
     }
 
     public static void printMatrix(Matrix m) {
