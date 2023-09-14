@@ -43,5 +43,6 @@ public class MatrixOperators {
     public static final UnaryOperator<TransformedMatrix, Matrix> SCHUR = new MatrixSchurTransformation();
     public static final UnaryOperator<TransformedMatrix, Matrix> QR = new MatrixQRDecomposition();
     public static final UnaryOperator<TransformedMatrix, Matrix> LU = new MatrixLUDecomposition();
+    public static final UnaryOperator<TransformedMatrix, Matrix> ROW_ECHELON = new MatrixRowEchelonDecomposition();
 
 }
